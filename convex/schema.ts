@@ -21,5 +21,10 @@ export default defineSchema({
 
   watchlists: defineTable({ name: v.string(), createdAt: v.number() }),
   watchlistItems: defineTable({ watchlistId: v.id("watchlists"), stockId: v.id("stocks"), addedAt: v.number() })
-    .index("by_watchlist", ["watchlistId"]).index("by_watchlist_stock", ["watchlistId", "stockId"])
+    .index("by_watchlist", ["watchlistId"]).index("by_watchlist_stock", ["watchlistId", "stockId"]),
+
+  portfolios: defineTable({ ownerKey: v.string(), name: v.string(), createdAt: v.number() }).index("by_owner", ["ownerKey"]),
+  positions: defineTable({
+    portfolioId: v.id("portfolios"), stockId: v.id("stocks"), shares: v.number(), averageCost: v.number(), updatedAt: v.number()
+  }).index("by_portfolio", ["portfolioId"]).index("by_portfolio_stock", ["portfolioId", "stockId"])
 });
